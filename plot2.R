@@ -1,0 +1,7 @@
+housedata<-read.table("household_power_consumption.txt", sep=";", header=TRUE, na.strings = "?")
+combine<-subset(housedata, housedata$Date=="1/2/2007"|housedata$Date=="2/2/2007")
+combine$Date <- as.Date(combine$Date, format="%d/%m/%Y")
+combine$Time <- strptime(combine$Time, format="%H:%M:%S")
+combine[1:1440,"Time"] <- format(combine[1:1440,"Time"],"2007-02-01 %H:%M:%S")
+combine[1441:2880,"Time"] <- format(combine[1441:2880,"Time"],"2007-02-02 %H:%M:%S")
+plot(combine$Time,as.numeric(combine$Global_active_power),type = "l" , main="Global active power vs Time", xlab = "", ylab = "Global Avtive power(Kilowatts)")
